@@ -24,18 +24,29 @@
 
 1. Установите [Yandex Cloud CLI](https://cloud.yandex.ru/docs/cli/quickstart#install).
 
-2. [Аутентифицируйтесь](https://cloud.yandex.ru/docs/cli/quickstart#initialize).
+2. [Аутентифицируйтесь](https://cloud.yandex.ru/docs/cli/quickstart#initialize). 
 
-3. [Создайте сервисный аккаунт](https://cloud.yandex.ru/docs/iam/operations/sa/create) с именем `viewer`.
+    Обратите внимение, что при настройке профиля CLI (`yc init`) необходимо выбрать облако (cloud) и каталог (folder) по умолчанию. Выберите те, в которых будете работать и сохраните их id. Данные ресурсы остаются неизменны на протяжении всего курса.
 
-4. [Назначьте](https://cloud.yandex.ru/docs/iam/operations/sa/assign-role-for-sa) созданному сервисному аккаунту стандартную роль `viewer`.
+3. Выбранные [облако](https://cloud.yandex.ru/docs/cli/cli-ref/managed-services/resource-manager/cloud/list) и [каталог](https://cloud.yandex.ru/docs/cli/cli-ref/managed-services/resource-manager/folder/list), сохраните в файл с именем `resources-<group>-<number>.json` их id, где `<cloud>` - id облака, `<folder>` - id каталога:
+
+    ```json
+    {
+        "cloud-id": "<cloud>",
+        "folder-id": "<folder>"
+    }
+    ```
+
+4. [Создайте сервисный аккаунт](https://cloud.yandex.ru/docs/iam/operations/sa/create) с именем `viewer`.
+
+5. [Назначьте](https://cloud.yandex.ru/docs/iam/operations/sa/assign-role-for-sa) созданному сервисному аккаунту стандартную роль `viewer`.
 
     Данная роль обеспечивает возможность сервисному аккаунту просматривать состояния всех ресурсов, но не изменять их. Фактически, это `read only` доступ.
 
-5. Создайте авторизованный ключ для сервисного аккаунта и сохраните его в файл `key-<group>-<number>.json`, где `<group>` - номер вашей группы, `<number>` - ваш порядковый номер по списку. Номера обязательно согласуйте с преподавателем, на случай несоответствия информации об актуальных списках групп.
+6. Создайте авторизованный ключ для сервисного аккаунта и сохраните его в файл `key-<group>-<number>.json`, где `<group>` - номер вашей группы, `<number>` - ваш порядковый номер по списку. Номера обязательно согласуйте с преподавателем, на случай несоответствия информации об актуальных списках групп.
 
     ```
     yc iam key create --service-account-name viewer --output key-<group>-<number>.json
     ```
 
-6. Отправьте полученный файл `key-<group>-<number>.json` преподавателю.
+7. Отправьте полученные файлы `key-<group>-<number>.json` и `resources-<group>-<number>.json` преподавателю.
