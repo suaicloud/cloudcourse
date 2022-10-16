@@ -22,31 +22,72 @@
 
 Для этого:
 
-1. Установите [Yandex Cloud CLI](https://cloud.yandex.ru/docs/cli/quickstart#install).
-
-2. [Аутентифицируйтесь](https://cloud.yandex.ru/docs/cli/quickstart#initialize). 
-
-    Обратите внимение, что при настройке профиля CLI (`yc init`) необходимо выбрать облако (cloud) и каталог (folder) по умолчанию. Выберите те, в которых будете работать и сохраните их id. Данные ресурсы остаются неизменны на протяжении всего курса.
-
-3. Выбранные [облако](https://cloud.yandex.ru/docs/cli/cli-ref/managed-services/resource-manager/cloud/list) и [каталог](https://cloud.yandex.ru/docs/cli/cli-ref/managed-services/resource-manager/folder/list), сохраните в файл с именем `resources-<group>-<number>.json` их id, где `<cloud>` - id облака, `<folder>` - id каталога:
+1. Создайте файл с именем `credentials-<group>-<index>.json`, где `<group>` - номер вашей группы (только цифры, пример: `4018K`->`4018`, `B9441`->`9441`), `<index>` - ваш порядковый номер по списку (согласованный с преподавателем). Добавльте в него следующие поля:
 
     ```json
     {
-        "cloud-id": "<cloud>",
-        "folder-id": "<folder>"
+        "first_name": "<first_name>",
+        "last_name": "<last_name>",
+        "group": "<group>",
+        "index": "<index>"
     }
     ```
 
-4. [Создайте сервисный аккаунт](https://cloud.yandex.ru/docs/iam/operations/sa/create) с именем `viewer`.
+    где `<first_name>` - ваше имя транслитом (латиница, пример: `Ivan`), `<last_name>` - ваша фамилия транслитом (латиница, пример: `Ivanov`). 
+    **Используйте именно указанные записи во время выполнения лабораторных работ.**
 
-5. [Назначьте](https://cloud.yandex.ru/docs/iam/operations/sa/assign-role-for-sa) созданному сервисному аккаунту стандартную роль `viewer`.
+1. Установите [Yandex Cloud CLI](https://cloud.yandex.ru/docs/cli/quickstart#install).
+
+1. [Аутентифицируйтесь](https://cloud.yandex.ru/docs/cli/quickstart#initialize). 
+
+    Обратите внимение, что при настройке профиля CLI (`yc init`) необходимо выбрать облако (cloud) и каталог (folder) по умолчанию. Выберите те, в которых будете работать и сохраните их id. Данные ресурсы остаются неизменными на протяжении всего курса.
+
+1. Добавьте в файл, созданный в пункте 1, `id` выбранных [облака](https://cloud.yandex.ru/docs/cli/cli-ref/managed-services/resource-manager/cloud/list) и [каталога](https://cloud.yandex.ru/docs/cli/cli-ref/managed-services/resource-manager/folder/list):
+
+    ```json
+    {
+        "first_name": "<first_name>",
+        "last_name": "<last_name>",
+        "group": "<group>",
+        "index": "<index>",
+        "cloud_id": "<cloud_id>",
+        "folder_id": "<folder_id>"
+    }
+    ```
+
+    где `<cloud_id>` - id облака, `<folder_id>` - id каталога.
+
+1. [Создайте сервисный аккаунт](https://cloud.yandex.ru/docs/iam/operations/sa/create) с именем `viewer`.
+
+1. [Назначьте](https://cloud.yandex.ru/docs/iam/operations/sa/assign-role-for-sa) созданному сервисному аккаунту стандартную роль `viewer`.
 
     Данная роль обеспечивает возможность сервисному аккаунту просматривать состояния всех ресурсов, но не изменять их. Фактически, это `read only` доступ.
 
-6. Создайте авторизованный ключ для сервисного аккаунта и сохраните его в файл `key-<group>-<number>.json`, где `<group>` - номер вашей группы, `<number>` - ваш порядковый номер по списку. Номера обязательно согласуйте с преподавателем, на случай несоответствия информации об актуальных списках групп.
+1. Создайте авторизованный ключ для сервисного аккаунта и сохраните его в файл `key.json`:
 
-    ```
-    yc iam key create --service-account-name viewer --output key-<group>-<number>.json
+    ```sh
+    yc iam key create --service-account-name viewer --output key.json
     ```
 
-7. Отправьте полученные файлы `key-<group>-<number>.json` и `resources-<group>-<number>.json` преподавателю.
+    Содержимое полученного файла `key.json` разместите в файле `credentials-<group>-<index>.json` в поле `key`:
+
+    ```json
+    {
+        "first_name": "<first_name>",
+        "last_name": "<last_name>",
+        "group": "<group>",
+        "index": "<index>",
+        "cloud_id": "<cloud_id>",
+        "folder_id": "<folder_id>",
+        "key": {
+            "id": "qwertasdfgzxcvb12345",
+            "service_account_id": "zxcvbasdfgqwert98765",
+            "created_at": "2022-10-01T00:00:00.000000000Z",
+            "key_algorithm": "RSA_2048",
+            "public_key": "-----BEGIN PUBLIC KEY-----.....",
+            "private_key": "-----BEGIN PRIVATE KEY-----....."
+        }
+    }
+    ```
+
+1. Отправьте полученный файл `credentials-<group>-<index>.json` преподавателю.
